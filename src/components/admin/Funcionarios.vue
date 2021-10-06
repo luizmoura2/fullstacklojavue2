@@ -172,8 +172,8 @@
                 <b-button variant="danger" @click="funcionario = data.item" 
                     v-b-modal.modal-func ><i class="fa fa-trash"></i>
                 </b-button>
-                 <b-button variant="warning" @click="fichaFuncionario(data.item.fun_id)" class="ml-2">
-                    <i class="fa fa-pencil"></i>
+                 <b-button variant="info" @click="fichaFuncionario(data.item.fun_id)" class="ml-2">
+                    <i class="fa fa-book"></i>
                 </b-button>
             </template>
         </b-table>
