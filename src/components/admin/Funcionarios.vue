@@ -1,6 +1,6 @@
 <template>
    <div class="funcionario-admin">
-		<b-form>				
+        <b-form>				
             <input type="hidden" v-model="funcionario.fun_codigo" />
             <input type="hidden" v-model="funcionario.fun_senha" value='apple'/>
             
@@ -152,13 +152,28 @@
             <b-button class="ml-2"  @click="reset"> Cancelar </b-button>
         </b-form>
         <hr />
+        <b-row>
+                <b-col md="5" sm="12">	
+                    <b-input-group class="mb-3" size="sm" prepend="Pesquisa por nome:"  >
+                        <b-form-input size="sm" type="text" id="func-nomep" 
+                            v-model="func_nome_pesquisa" maxlength="255" />
+                        <b-input-group-append>
+                            <b-button size="sm" text="Button" variant="info" @click="findFuncionario()">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i></b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                </b-col>
+       </b-row>
         <b-table striped hover :items="funcionarios" :fields="fields">
            <template slot="actions" slot-scope="data">
                 <b-button variant="warning" @click="editFuncionario(data.item.fun_id)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
                 <b-button variant="danger" @click="funcionario = data.item" 
-                    v-b-modal.modal-func class="ml-2"><i class="fa fa-trash"></i>
+                    v-b-modal.modal-func ><i class="fa fa-trash"></i>
+                </b-button>
+                 <b-button variant="warning" @click="fichaFuncionario(data.item.fun_id)" class="ml-2">
+                    <i class="fa fa-pencil"></i>
                 </b-button>
             </template>
         </b-table>
@@ -187,35 +202,54 @@ import { baseApiUrl, showError } from '@/global'
 import axios from 'axios' 
 
 export default {
-   name: 'Funcionario',
-   data() {
-      return {
-        mode: 'save',
-        page: 1,
-        limit: 3,
-        count: 0,
-        estados: [],
-        cidades: [],
-        funcionario: {},
-        funcionarios: [],
-        fields: [
-            {key:'fun_id', label:'Codigo', sortable:true},
-            {key:'nome', label:'Nome', sortable:true},
-            {key:'funcao', label:'Função', sortable:true},
-            {key:'telefone', label:'Telefone', sortable:true},
-            {key:'email', label:'E-mail', sortable:true},
-            {key:'actions', label:'Ações'}
-        ],
-        funcao: [
-            {value: "M" , text:'Master'},
-            {value: "A" , text:'Admin'},
-            {value: "G", text:'Gerente'},
-            {value: "S" , text:'Supervisor'},
-            {value: "V" , text:'Vendedor'}
-        ]        
-      }
+    name: 'Funcionario',    
+    data() {
+    return {
+    mode: 'save',
+    page: 1,
+    limit: 3,
+    count: 0,
+    estados: [],
+    cidades: [],
+    func_nome_pesquisa: '',
+    funcionario: {},
+    funcionarios: [],
+    fields: [
+        {key:'fun_id', label:'Codigo', sortable:true},
+        {key:'nome', label:'Nome', sortable:true},
+        {key:'funcao', label:'Função', sortable:true},
+        {key:'telefone', label:'Telefone', sortable:true},
+        {key:'email', label:'E-mail', sortable:true},
+        {key:'actions', label:'Ações'}
+    ],
+    funcao: [
+        {value: "M" , text:'Master'},
+        {value: "A" , text:'Admin'},
+        {value: "G", text:'Gerente'},
+        {value: "S" , text:'Supervisor'},
+        {value: "V" , text:'Vendedor'}
+    ]
+    }
    },
     methods: {
+        fichaFuncionario(fun_id){
+            // eslint-disable-next-line
+            console.log(fun_id)
+        },
+        
+        findFuncionario(){
+             // eslint-disable-next-line
+           // console.log('pesquisar funcionario')
+            const url = `${baseApiUrl}/funcionario/findnome/${this.func_nome_pesquisa}`
+            axios.get(url)
+                .then(res =>{
+                    this.funcionarios = res.data.data
+                    this.page = res.data.current_page
+                    this.limit = res.data.per_page
+                    this.count = res.data.total
+                })     
+        },
+
         loadFuncionarios(){
             const url = `${baseApiUrl}/funcionario/tbl?page=${this.page}`
             axios.get(url)
