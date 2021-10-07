@@ -3,7 +3,7 @@
     <PageTitle
       icon="fa fa-cogs"
       main=" Administração do Sistema"
-      sub="Cadastro & Cia"
+      sub="Cadastros & Cia"
     />
 
     <div class="admin-pages-tabs">
@@ -18,9 +18,9 @@
           <b-tab title="Forenecedores">
             <Fornecedores />
           </b-tab>
-          <b-tab title="Produtos">
+          <!-- <b-tab title="Produtos">
             <Produtos />
-          </b-tab>
+          </b-tab> -->
          
           <!-- <b-tab title="Estoques">
                   <Estoques />

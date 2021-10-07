@@ -8,9 +8,13 @@ import './config/msgs'
 import store from './config/store'
 import router from './config/router'
 
+import pdf from 'vue-pdf'
 Vue.config.productionTip = false
+Vue.component("pdf", pdf);
+
 
 new Vue({
+   pdf,
    store,
    router,
   render: h => h(App)
