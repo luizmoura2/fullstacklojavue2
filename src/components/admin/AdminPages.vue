@@ -28,9 +28,9 @@
                <b-tab title="Empresas">
                   <Empresas />
                </b-tab> -->
-          <b-tab title="Promoções">
+          <!-- <b-tab title="Promoções">
                   <Promocoes />
-          </b-tab>
+          </b-tab> -->
         </b-tabs>
       </b-card>
     </div>

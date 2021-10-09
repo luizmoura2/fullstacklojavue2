@@ -175,7 +175,7 @@
                  <!-- <b-button variant="info" @click="fichaFuncional(data.item.fun_id)" class="ml-2">
                     <i class="fa fa-book"></i>
                 </b-button> -->
-                <router-link to="/funpdf" class="ml-2">
+                <router-link :to="{name: 'funcionarioPdf', params: {id: data.item.fun_id}}" class="ml-2">
                     <i class="fa fa-book"></i>
                 </router-link>
             </template>
@@ -196,11 +196,6 @@
             <b-button class="mt-3" variant="primary" @click="remove">Confirmar</b-button>
             <b-button class="mt-3 ml-2" @click="hideModal" >Cancelar</b-button>
         </b-modal>
-        <template>
-            <!-- used `style="height: 100vh;"` because without it in the Firefox 89 and Chrome 91 (June 2021) the `vue-pdf-app` is not rendering on the page, just empty space without any errors (since `vue-pdf-app` does not have height and it is the top tag in the generated markup ) -->
-            <!-- or you can just wrap `vue-pdf-app` in <div> tag and set height for it via CSS (like in `Script tag (unpkg)` example below) -->
-            <vue-pdf-app style="height: 100vh;" pdf="https://file-examples-com.github.io/uploads/2017/10/file-example_PDF_1MB.pdf"></vue-pdf-app>
-        </template>
    </div>
    
 </template>

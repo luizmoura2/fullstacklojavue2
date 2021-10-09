@@ -17,7 +17,7 @@ const routes = [{
    component: AdminPages
 },{
    name: 'funcionarioPdf',
-   path: '/funpdf',
+   path: '/funpdf/:id',
    component: FuncionarioPdf
 }]
 
