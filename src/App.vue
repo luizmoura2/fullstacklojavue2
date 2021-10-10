@@ -46,6 +46,7 @@ export default {
 			"header header"
 			"menu content"
 			"footer footer";
+		
 	}
 
 	#app.hide-menu {

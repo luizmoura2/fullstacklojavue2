@@ -164,7 +164,7 @@
                     </b-input-group>
                 </b-col>
        </b-row>
-        <b-table striped hover :items="funcionarios" :fields="fields">
+        <b-table striped hover :items="this.funcionarios" :fields="fields">
            <template slot="actions" slot-scope="data">
                 <b-button variant="warning" @click="editFuncionario(data.item.fun_id)" class="mr-2">
                     <i class="fa fa-pencil"></i>
@@ -172,9 +172,12 @@
                 <b-button variant="danger" @click="funcionario = data.item" 
                     v-b-modal.modal-func ><i class="fa fa-trash"></i>
                 </b-button>
-                 <b-button variant="info" @click="fichaFuncionario(data.item.fun_id)" class="ml-2">
+                 <!-- <b-button variant="info" @click="fichaFuncional(data.item.fun_id)" class="ml-2">
                     <i class="fa fa-book"></i>
-                </b-button>
+                </b-button> -->
+                <router-link :to="{name: 'funcionarioPdf', params: {id: data.item.fun_id}}" class="ml-2">
+                    <i class="fa fa-book"></i>
+                </router-link>
             </template>
         </b-table>
         
@@ -194,6 +197,7 @@
             <b-button class="mt-3 ml-2" @click="hideModal" >Cancelar</b-button>
         </b-modal>
    </div>
+   
 </template>
 
 <script>
@@ -202,39 +206,46 @@ import { baseApiUrl, showError } from '@/global'
 import axios from 'axios' 
 
 export default {
-    name: 'Funcionario',    
+    name: 'Funcionario', 
     data() {
-    return {
-    mode: 'save',
-    page: 1,
-    limit: 3,
-    count: 0,
-    estados: [],
-    cidades: [],
-    func_nome_pesquisa: '',
-    funcionario: {},
-    funcionarios: [],
-    fields: [
-        {key:'fun_id', label:'Codigo', sortable:true},
-        {key:'nome', label:'Nome', sortable:true},
-        {key:'funcao', label:'Função', sortable:true},
-        {key:'telefone', label:'Telefone', sortable:true},
-        {key:'email', label:'E-mail', sortable:true},
-        {key:'actions', label:'Ações'}
-    ],
-    funcao: [
-        {value: "M" , text:'Master'},
-        {value: "A" , text:'Admin'},
-        {value: "G", text:'Gerente'},
-        {value: "S" , text:'Supervisor'},
-        {value: "V" , text:'Vendedor'}
-    ]
-    }
+        return {
+            mode: 'save',
+            page: 1,
+            limit: 3,
+            count: 0,
+            estados: [],
+            cidades: [],
+            func_nome_pesquisa: '',
+            funcionario: {},
+            funcionarios: [],
+            pdf: Boolean,
+            fields: [
+                {key:'fun_id', label:'Codigo', sortable:true},
+                {key:'nome', label:'Nome', sortable:true},
+                {key:'funcao', label:'Função', sortable:true},
+                {key:'telefone', label:'Telefone', sortable:true},
+                {key:'email', label:'E-mail', sortable:true},
+                {key:'actions', label:'Ações'}
+            ],
+            funcao: [
+                {value: "M" , text:'Master'},
+                {value: "A" , text:'Admin'},
+                {value: "G", text:'Gerente'},
+                {value: "S" , text:'Supervisor'},
+                {value: "V" , text:'Vendedor'}
+            ]
+        }
    },
     methods: {
-        fichaFuncionario(fun_id){
+        fichaFuncional(id){
+            const url = `${baseApiUrl}/funcionario/${id}`
+            axios.get(url)
+                .then(res =>{
+                    this.funcionario = res.data
+                    this.pdf = true
+                })  
             // eslint-disable-next-line
-            console.log(fun_id)
+            console.log(this.funcionario)
         },
         
         findFuncionario(){
@@ -336,30 +347,7 @@ export default {
     }
 
 }
-/* `codigo`
-	`nome`
-	`sexo`
-	`funcao`
-	`cpf`
-	`senha`
-	`ctps`
-	`data_cadastro`
-	`data_nasc`
-	`data_update`
-	`email` 
-	`end_bairro` 
-	`end_cep`
-	`end_cidade`
-	`end_nr`
-	`end_rua`
-	`end_uf`
-	`mae`
-	`pai`
-	`rg`
-	`telefone`
-	`titulo`
-	`observacao`
-	`ativo` */
+
 </script>
 
 <style>

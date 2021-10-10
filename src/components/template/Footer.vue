@@ -18,6 +18,6 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding-right: 10px;     
+      padding-right: 10px;      
    }
 </style>
