@@ -166,18 +166,18 @@
        </b-row>
         <b-table striped hover :items="this.funcionarios" :fields="fields">
            <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="editFuncionario(data.item.fun_id)" class="mr-2">
+                <b-button size='sm' variant="warning" @click="editFuncionario(data.item.fun_id)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="funcionario = data.item" 
+                <b-button size='sm' variant="danger" @click="funcionario = data.item" 
                     v-b-modal.modal-func ><i class="fa fa-trash"></i>
                 </b-button>
-                 <!-- <b-button variant="info" @click="fichaFuncional(data.item.fun_id)" class="ml-2">
+                <b-button size='sm' variant="info" @click="fichaFuncional(data.item.fun_id)" class="ml-2">
                     <i class="fa fa-book"></i>
-                </b-button> -->
-                <router-link :to="{name: 'funcionarioPdf', params: {id: data.item.fun_id}}" class="ml-2">
+                </b-button>
+                <!-- <router-link :to="{name: 'RelPdf', params: {id: data.item.fun_id}}" class="ml-2">
                     <i class="fa fa-book"></i>
-                </router-link>
+                </router-link> -->
             </template>
         </b-table>
         
@@ -238,14 +238,8 @@ export default {
    },
     methods: {
         fichaFuncional(id){
-            const url = `${baseApiUrl}/funcionario/${id}`
-            axios.get(url)
-                .then(res =>{
-                    this.funcionario = res.data
-                    this.pdf = true
-                })  
-            // eslint-disable-next-line
-            console.log(this.funcionario)
+            const url = `funcionario/pdf/${id}`
+            this.$router.push({ name: 'RelPdf', params: { url } })
         },
         
         findFuncionario(){

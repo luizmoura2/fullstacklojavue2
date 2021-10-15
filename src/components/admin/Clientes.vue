@@ -117,14 +117,32 @@
             <b-button class="ml-2"  @click="reset"> Cancelar </b-button>
         </b-form>
         <hr>
+        <b-row>
+                <b-col md="5" sm="12">	
+                    <b-input-group class="mb-3" size="sm" prepend="Pesquisa por nome:"  >
+                        <b-form-input size="sm" type="text" id="func-nomep" 
+                            v-model="cli_nome_pesquisa" maxlength="255" />
+                        <b-input-group-append>
+                            <b-button size="sm" text="Button" variant="info" @click="findCliente()">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i></b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                </b-col>
+       </b-row>
         <b-table striped hover :items="clientes" :fields="fields">
            <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="editCliente(data.item.cli_codigo)" class="mr-2">
+                <b-button size='sm' variant="warning" @click="editCliente(data.item.cli_codigo)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="cliente = data.item" 
+                <b-button size='sm' variant="danger" @click="cliente = data.item" 
                     v-b-modal.modal-clic class="ml-2"><i class="fa fa-trash"></i>
                 </b-button>
+                <b-button size='sm' variant="info" @click="fichaCliente(data.item.cli_codigo)" class="ml-2">
+                    <i class="fa fa-book"></i>
+                </b-button>
+                <!-- <router-link :to="{name: 'funcionarioPdf', params: {id: data.item.cli_id}}" class="ml-2">
+                    <i class="fa fa-book"></i>
+                </router-link> -->
             </template>
         </b-table>
         <p class="mt-3">Page: {{page}}/{{count}}</p>
@@ -161,6 +179,7 @@ export default {
         count: 0,
         estados: [],
         cidades: [],
+        cli_nome_pesquisa:'',
         cliente: { },
         clientes: [],
         fields: [
@@ -174,6 +193,10 @@ export default {
       }
    },
     methods: {
+        fichaCliente(id){
+            const url = `cliente/pdf/${id}`
+            this.$router.push({ name: 'RelPdf', params: { url } })
+        },
         loadClientes(){
             const url = `${baseApiUrl}/cliente/tbl?page=${this.page}`
             axios.get(url)
@@ -183,6 +206,18 @@ export default {
                     this.limit = res.data.per_page
                     this.count = res.data.total
                 })      
+        },
+        findCliente(){
+             // eslint-disable-next-line
+           // console.log('pesquisar funcionario')
+            const url = `${baseApiUrl}/cliente/findnome/${this.cli_nome_pesquisa}`
+            axios.get(url)
+                .then(res =>{
+                    this.clientes = res.data.data
+                    this.page = res.data.current_page
+                    this.limit = res.data.per_page
+                    this.count = res.data.total
+                })     
         },
 
         loadEstados(){

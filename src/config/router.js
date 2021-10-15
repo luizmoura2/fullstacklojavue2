@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '@/components/home/Home'
 import AdminPages from '@/components/admin/AdminPages'
-import FuncionarioPdf from '@/components/auxpdf/FuncionarioPdf'
+import RelPdf from '@/components/auxpdf/RelPdf'
 
 Vue.use(VueRouter)
 
@@ -16,9 +16,10 @@ const routes = [{
    path: '/admin',
    component: AdminPages
 },{
-   name: 'funcionarioPdf',
-   path: '/funpdf/:id',
-   component: FuncionarioPdf
+   name: 'RelPdf',
+   path: '/funpdf/:url',
+   component: RelPdf,
+   props: true
 }]
 
 export default new VueRouter({
