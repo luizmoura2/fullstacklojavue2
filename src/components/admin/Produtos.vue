@@ -64,13 +64,28 @@
 
         </b-form>
         <hr>
+         <b-row>
+                <b-col md="5" sm="12">	
+                    <b-input-group class="mb-3" size="sm" prepend="Pesquisa por nome:"  >
+                        <b-form-input size="sm" type="text" id="func-nomep" 
+                            v-model="prod_nome_pesquisa" maxlength="255" />
+                        <b-input-group-append>
+                            <b-button size="sm" text="Button" variant="info" @click="findProduto()">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i></b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                </b-col>
+       </b-row>
         <b-table striped hover :items="produtos" :fields="fields">
            <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="editProduto(data.item.pro_codigo)" class="mr-2">
+                <b-button size='sm' variant="warning" @click="editProduto(data.item.pro_codigo)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="produto = data.item" 
+                <b-button size='sm' variant="danger" @click="produto = data.item" 
                     v-b-modal.modal-clic class="ml-2"><i class="fa fa-trash"></i>
+                </b-button>
+                <b-button size='sm' variant="info" @click="fichaProduto(data.item.pro_codigo)" class="ml-2">
+                    <i class="fa fa-book"></i>
                 </b-button>
             </template>
         </b-table>
@@ -108,6 +123,7 @@ export default {
         count: 0,
         estados: [],
         cidades: [],
+        prod_nome_pesquisa:'',
         produto: {
             pro_id: "",
             pro_nome: "Sabonete",
@@ -131,6 +147,25 @@ export default {
       }
    },
     methods: {
+
+        fichaProduto(id){
+            const url = `produto/pdf/${id}`
+            this.$router.push({ name: 'RelPdf', params: { url } })
+        },
+
+        findProduto(){
+             // eslint-disable-next-line
+           // console.log('pesquisar funcionario')
+            const url = `${baseApiUrl}/produto/findnome/${this.prod_nome_pesquisa}`
+            axios.get(url)
+                .then(res =>{
+                    this.produtos = res.data.data
+                    this.page = res.data.current_page
+                    this.limit = res.data.per_page
+                    this.count = res.data.total
+                })     
+        },
+
         loadProdutos(){
             const url = `${baseApiUrl}/produto/tbl?page=${this.page}`
             axios.get(url)
@@ -142,10 +177,10 @@ export default {
                 })      
         },
 
-        loadFornecedores(){           
-            const url = `${baseApiUrl}/fornecedor/${this.produto.pro_codigo}`
+        loadProduto(){           
+            const url = `${baseApiUrl}/produto/${this.produto.pro_codigo}`
             axios.get(url)
-                .then(res =>this.cidades = res.data)      
+                .then(res =>this.produtos = res.data)      
         },
 
         reset(){
@@ -161,13 +196,12 @@ export default {
             axios.get(url)
                 .then(res =>{
                     this.produto = res.data                     
-                })  
-
+                })
         },
 
         save(){    
            // eslint-disable-next-line
-           // console.log(this.produto);       
+           console.log(this.produto);       
             const method = this.produto.pro_codigo ? 'put':'post'
             const id = this.produto.pro_codigo ? `/${this.produto.pro_codigo}` :''
             const url = `${baseApiUrl}/produto${id}`

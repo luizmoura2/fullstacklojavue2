@@ -18,14 +18,13 @@
           <b-tab title="Forenecedores">
             <Fornecedores />
           </b-tab>
-          <!-- <b-tab title="Produtos">
+          <b-tab title="Produtos">
             <Produtos />
-          </b-tab> -->
-         
-          <!-- <b-tab title="Estoques">
+          </b-tab>         
+          <b-tab title="Estoques">
                   <Estoques />
-               </b-tab>
-               <b-tab title="Empresas">
+          </b-tab>
+               <!-- <b-tab title="Empresas">
                   <Empresas />
                </b-tab> -->
           <!-- <b-tab title="Promoções">

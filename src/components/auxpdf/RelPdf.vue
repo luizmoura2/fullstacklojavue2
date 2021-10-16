@@ -14,7 +14,7 @@
                     <b-button @click="countPage(0)">&laquo;</b-button>
                     <b-button @click="countPage(-1)">&lsaquo;</b-button>
                     <b-button @click="countPage(1)">&rsaquo;</b-button>
-                    <b-button @click="countPage(x)">&raquo;</b-button>
+                    <b-button @click="countPage('x')">&raquo;</b-button>
                 </b-button-group>
             </b-button-toolbar>
         </nav>
@@ -87,9 +87,10 @@ export default {
         height: 75vh;        
         border: 3px solid rgb(22, 21, 21);
         overflow: scroll;
-        background: #94ccb2;
+        background: rgb(231, 207, 243);
         padding: 30px;
     }
+
     .box-pdf {      
       position: absolute;      
       padding: 2px 2px;

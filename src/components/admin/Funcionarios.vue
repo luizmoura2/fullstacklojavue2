@@ -175,9 +175,6 @@
                 <b-button size='sm' variant="info" @click="fichaFuncional(data.item.fun_id)" class="ml-2">
                     <i class="fa fa-book"></i>
                 </b-button>
-                <!-- <router-link :to="{name: 'RelPdf', params: {id: data.item.fun_id}}" class="ml-2">
-                    <i class="fa fa-book"></i>
-                </router-link> -->
             </template>
         </b-table>
         
