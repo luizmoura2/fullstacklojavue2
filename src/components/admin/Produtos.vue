@@ -57,11 +57,9 @@
                </b-form-group>      	
             </b-col>
             
-         </b-row>  
-
+         </b-row>
             <b-button variant="primary" v-if=" mode === 'save' " @click="save"> Salvar </b-button>
             <b-button class="ml-2"  @click="reset"> Cancelar </b-button>
-
         </b-form>
         <hr>
          <b-row>
@@ -86,6 +84,9 @@
                 </b-button>
                 <b-button size='sm' variant="info" @click="fichaProduto(data.item.pro_codigo)" class="ml-2">
                     <i class="fa fa-book"></i>
+                </b-button>
+                <b-button size='sm' variant="info" @click="findEstoque(data.item)" class="ml-2" title="estoque">
+                    <i class="fa fa-cart-arrow-down"></i>
                 </b-button>
             </template>
         </b-table>
@@ -165,7 +166,19 @@ export default {
                     this.count = res.data.total
                 })     
         },
+        findEstoque(Item){
+            
+            this.$store.commit('setProduto', Item )
+            const url = `${baseApiUrl}/estoque/list/${Item.pro_codigo}`
+            axios.get(url)
+                .then(res =>{
+                    this.$store.commit('setEstoque', res.data )
+                    this.$store.commit('setTabEstoque', 4 ) 
+                    // // eslint-disable-next-line
+                    // console.log(this.data);    
 
+                })     
+        },
         loadProdutos(){
             const url = `${baseApiUrl}/produto/tbl?page=${this.page}`
             axios.get(url)
@@ -200,8 +213,7 @@ export default {
         },
 
         save(){    
-           // eslint-disable-next-line
-           console.log(this.produto);       
+                
             const method = this.produto.pro_codigo ? 'put':'post'
             const id = this.produto.pro_codigo ? `/${this.produto.pro_codigo}` :''
             const url = `${baseApiUrl}/produto${id}`

@@ -60,7 +60,7 @@ export default {
         },
         countPage(n){
             
-            if (n == 0){
+            if ( n == 0 ){
                 this.page = 1
             }else if ( isNaN(n) ) {
                 this.page = this.numPages

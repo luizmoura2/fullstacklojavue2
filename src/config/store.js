@@ -6,10 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
    state: {
       isMenuVisible: true,
+      tabIndex: 0,
+      actv: false,
       user: {
          name: 'Luiz Moura',
          email: 'luizmoura2@hotmail.com'
-      }
+      },      
+      produto: {},
+      estoque: []
+
    },
    mutations: {
       toggleMenu(state, isVisible){
@@ -18,8 +23,16 @@ export default new Vuex.Store({
          }else{
             state.isMenuVisible = isVisible
          }
-         // eslint-disable-next-line
-         //console.log('tgmnu'+state.isMenuVisible)
+      },
+      setTabEstoque(state, tab){
+         state.tabIndex = tab         
+      },
+      setProduto(state, payload){
+         state.produto = payload
+      },
+      setEstoque(state, payload){
+         state.estoque = payload
       }
+
    }
 })
