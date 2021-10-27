@@ -25,9 +25,9 @@
           <b-tab title="Estoques" @click="setTab(4)">
             <Estoques />
           </b-tab>
-               <!-- <b-tab title="Empresas">
-                  <Empresas />
-               </b-tab> -->
+          <b-tab title="Empresas">
+            <Empresas />
+          </b-tab>
           <!-- <b-tab title="Promoções">
                   <Promocoes />
           </b-tab> -->

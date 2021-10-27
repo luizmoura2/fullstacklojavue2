@@ -13,8 +13,7 @@
             <b-col md="4" sm="12">						
                <b-form-group label="Nome:" label-for="pro-nome">
                   <b-form-input size="sm" type="text" id="pro-nome" 
-                        v-model="produto.pro_nome"
-                           maxlength="255" required />
+                        v-model="produto.pro_nome" maxlength="255" required />
                </b-form-group>
             </b-col>
             <b-col md="2" sm="12">
@@ -155,8 +154,8 @@ export default {
         },
 
         findProduto(){
-             // eslint-disable-next-line
-           // console.log('pesquisar funcionario')
+            // eslint-disable-next-line
+            // console.log('pesquisar funcionario')
             const url = `${baseApiUrl}/produto/findnome/${this.prod_nome_pesquisa}`
             axios.get(url)
                 .then(res =>{
@@ -169,13 +168,13 @@ export default {
         findEstoque(Item){
             
             this.$store.commit('setProduto', Item )
-            const url = `${baseApiUrl}/estoque/list/${Item.pro_codigo}`
+            const url = `${baseApiUrl}/produto/estoque/${Item.pro_codigo}`
             axios.get(url)
                 .then(res =>{
-                    this.$store.commit('setEstoque', res.data )
-                    this.$store.commit('setTabEstoque', 4 ) 
-                    // // eslint-disable-next-line
-                    // console.log(this.data);    
+                    //  eslint-disable-next-line
+                   // console.log(res.data); 
+                    this.$store.commit('setEstoque', res.data.data )
+                    this.$store.commit('setTabEstoque', 4 )   
 
                 })     
         },

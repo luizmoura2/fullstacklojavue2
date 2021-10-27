@@ -2,6 +2,7 @@
    <div class="estoque-admin">
 		<b-form>
             <b-row>  
+                
                 <b-col md="3" sm="12">                    
                     <b-form-group :label="'<b>Código:</b> '+ produto.pro_codigo" />                            
                 </b-col>     
@@ -26,12 +27,6 @@
                     </b-form-group>
                 </b-col>
                 <b-col md="2" sm="12">
-                    <b-form-group label="Unidade" label-for="unidade">
-                        <b-form-input type="text" size="sm" id="unidade" 
-                                v-model="estoque.pro_unidade" maxlength="45" required />
-                    </b-form-group>						
-                </b-col>
-                    <b-col md="2" sm="12">
                     <b-form-group label="Nota fiscal:" label-for="nota-fiscal">
                         <b-form-input type="text" size="sm" id="nota-fiscal" 
                                 v-model="estoque.nota_fiscal"  maxlength="20" />
@@ -49,15 +44,14 @@
                                 v-model="estoque.qtd_produto" maxlength="100"/>
                     </b-form-group>
                 </b-col> 
-            </b-row>
-
-            <b-row>  				
-                <b-col md="2" sm="12">
+                 <b-col md="2" sm="12">
                     <b-form-group label="Vendido" label-for="vendido" >
                         <b-form-input type="text" size="sm" id="vendido" 
                             v-model="estoque.pro_vendido" maxlength="15" required/>
                     </b-form-group>
                 </b-col>
+            </b-row>
+            <b-row>               
                 <b-col md="2" sm="12">
                     <b-form-group label="Custo" label-for="custo-un" >
                     <b-form-input type="text" size="sm" id="custo-un" 
@@ -88,28 +82,22 @@
                         v-model="estoque.pro_desconto"  maxlength="255" />	
                     </b-form-group>      	
                 </b-col>
-            </b-row>
-
-            <b-row>            
                 <b-col md="2" sm="12">
                     <b-form-group label="Validade" label-for="data_validade">
                     <b-form-input type="date" size="sm" id="data_validade" 
-                        v-model="estoque.pro_data_validade"  maxlength="255" />	
+                        v-model="estoque.pro_data_validade"  maxlength="10" />	
                     </b-form-group>      	
                 </b-col>
+            </b-row>
+
+            <b-row>
                 <b-col md="2" sm="12">
                     <b-form-group label="Unidade" label-for="unidade">
                     <b-form-input type="text" size="sm" id="unidade" 
                         v-model="estoque.pro_unidade"  maxlength="255" />	
                     </b-form-group>      	
                 </b-col>
-                <b-col md="2" sm="12">
-                    <b-form-group label="Entrada" label-for="data_entrada">
-                    <b-form-input type="date" size="sm" id="data_entrada" 
-                        v-model="estoque.data_entrada"  maxlength="255" />	
-                    </b-form-group>      	
-                </b-col>           
-                <b-col md="6" sm="12">
+                <b-col md="10" sm="12">
                     <b-form-group label="Observação" label-for="pro_observacao">
                     <b-form-input type="text" size="sm" id="pro_observacao" 
                         v-model="estoque.pro_observacao"  maxlength="255" />	
@@ -124,11 +112,14 @@
         <hr>
         <b-table striped hover :items="estoques" :fields="fields">
            <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="editEstoque(data.item.id)" class="mr-2">
+                <b-button size='sm' variant="warning" @click="editEstoque(data.item.codigo)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="estoque = data.item" 
+                <b-button size='sm' variant="danger" @click="estoque = data.item" 
                     v-b-modal.modal-clic class="ml-2"><i class="fa fa-trash"></i>
+                </b-button>
+                <b-button size='sm' variant="info" @click="fichaProduto(data.item.pro_codigo)" class="ml-2">
+                    <i class="fa fa-book"></i>
                 </b-button>
             </template>
         </b-table>
@@ -137,10 +128,10 @@
             first-text="⏮"   prev-text="⏪" next-text="⏩" last-text="⏭"            
             class="mt-4" align="center"/>
 
-        <b-modal id="modal-clic" ref="modal-f" size="sm" title="Exclusão?" hide-footer>
+        <b-modal id="modal-clic" ref="modal-f" size="md" title="Exclusão?" hide-footer>
                 <template #modal-title>
-                    Confirme a exclusão do Produto no esqoque:<br>
-                    Código: {{this.estoque.id }} - {{ estoque.pro_marca }}<br> 
+                    Confirme a exclusão do estoque do Produto: <br/>{{produto.pro_nome}} <br>
+                    Código estoque: {{estoque.codigo}} -  {{ estoque.pro_marca }}<br> 
                 </template>   
                
             <b-button class="mt-3" variant="primary" @click="remove">Confirmar</b-button>
@@ -165,12 +156,12 @@ export default {
         estados: [],
         cidades: [],
         prod_nome_pesquisa: '',
-        estoque: {},
-        //estoques: [],
         produtox: {},
         produtos: [],
+        estoque: {},
         fields: [
             {key:'codigo', label:'Codigo', sortable:true},
+            {key:'pro_codigo', label:'Produto'},
             {key:'pro_marca', label:'Marca', sortable:true},
             {key:'pro_data_validade', label:'Validade', sortable:true},
             {key:'pro_observacao', label:'Observação', sortable:true},
@@ -186,10 +177,17 @@ export default {
         estoques(){
             return this.$store.state.estoque
         }
+
     },
     methods: {
+
+        fichaProduto(id){
+            const url = `estoque/pdf/${id}`
+            this.$router.push({ name: 'RelPdf', params: { url } })
+        },
+
         loadEstoques(){
-            const url = `${baseApiUrl}/estoque/tbl?page=${this.page}`
+            const url = `${baseApiUrl}/estoque/grid/tbl?page=${this.page}`
             axios.get(url)
                 .then(res =>{
                     this.estoques = res.data.data
@@ -199,69 +197,84 @@ export default {
                 })      
         },
 
-        findProduto(){
-            
-            const url = `${baseApiUrl}/produto/findnome/${this.prod_nome_pesquisa}`
-            axios.get(url)
-                .then(res =>{
-                    this.produtos = res.data.data
-                    this.page = res.data.current_page
-                    this.limit = res.data.per_page
-                    this.count = res.data.total
-                })     
-        },
-
         reset(){
-            this.mode = 'save' ,
-            this.estoque = {},
-            this.loadEstoques()
+            this.mode = 'save'
+            this.estoque = {}
+            //this.loadEstoques()
         },
 
         editEstoque(id, mode='save' ){
-
             this.mode = mode
-            const url = `${baseApiUrl}/estoque/${id}`
+            const url = `${baseApiUrl}/estoque/item/${id}`
             axios.get(url)
                 .then(res =>{
-                    this.estoque = res.data
-                     
+                    // eslint-disable-next-line
+                   // console.log(res.data.data[0]); 
+                    this.estoque = res.data.data[0]
                 }) 
         },
 
         save(){    
             // eslint-disable-next-line
-            console.log(this.estoque);  
-            const method = this.estoque.id ? 'put':'post'
-            const id = this.estoque.id ? `/${this.estoque.id}` :''
+            //console.log(this.estoque);
+            let method=  ''
+            let id = ''
+            
+            if (this.estoque.codigo){
+                method = 'put'
+                id = `/${this.estoque.codigo}`
+            }else{
+                method = 'post'
+                this.estoque.pro_codigo = this.$store.state.produto.pro_codigo
+            }  
+            let pro_codigo = this.estoque.pro_codigo           
             const url = `${baseApiUrl}/estoque${id}`
             axios[method](url, this.estoque)
                 .then(() => {
                     this.$toasted.global.defaultSuccess()
                     this.reset()
+                    this.findEstoque(pro_codigo)
                 })
                 .catch(showError)
         },
        
+        findEstoque(pro_codigo){
+
+            const url = `${baseApiUrl}/produto/estoque/${pro_codigo}`
+            axios.get(url)
+                .then(res =>{
+                    //  eslint-disable-next-line
+                   // console.log(res.data); 
+                    this.$store.commit('setEstoque', res.data.data ) 
+
+                })     
+        },
         remove(){
-            const id = this.estoque.id
+            const id = this.estoque.codigo
+            let pro_codigo = this.estoque.pro_codigo  
             axios.delete(`${baseApiUrl}/estoque/${id}`)
                 .then(()=>{
                     this.hideModal()
                     this.reset()
                     this.$toasted.global.defaultSuccess()
+                    this.findEstoque(pro_codigo)
                 })
                 .catch(showError)
         },
         hideModal() {
             this.$refs['modal-f'].hide()
         },
-
+        
+        formatter(date) {
+            
+            return date.toLocaleDateString('pt-br')
+        }
     },
 
     watch:{
         page(){
            //this.loadProdutos()
-           this.loadEstoque (116)
+           //this.loadEstoque (116)
         }
     },
 

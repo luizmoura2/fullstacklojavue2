@@ -146,11 +146,8 @@
             </template>
         </b-table>
         <p class="mt-3">Page: {{page}}/{{count}}</p>
-        <b-pagination size="sm"  v-model="page" pills 
-            :total-rows="count" :per-page="limit" 
-            first-text="⏮"   prev-text="⏪"
-            next-text="⏩" last-text="⏭"            
-            class="mt-4" align="center"/>
+        <b-pagination size="sm"  v-model="page" pills :total-rows="count" :per-page="limit" 
+            first-text="⏮"   prev-text="⏪" next-text="⏩" last-text="⏭" class="mt-4" align="center"/>
 
         <b-modal id="modal-clic" ref="modal-f" size="sm" title="Exclusão?" hide-footer>
                 <template #modal-title>
@@ -191,7 +188,7 @@ export default {
             {key:'actions', label:'Ações'}
         ], 
       }
-   },
+    },
     methods: {
         fichaCliente(id){
             const url = `cliente/pdf/${id}`
