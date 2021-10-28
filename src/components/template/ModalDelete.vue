@@ -21,7 +21,7 @@
 
    export default ({
       name: 'ModalDelete',
-      props: ['title', 'codigo', 'nome', 'id'],
+      props: ['title', 'codigo', 'nome'],
       methods:{
          remove(){
             axios.delete(`${baseApiUrl}/cliente/${this.codigo}`)

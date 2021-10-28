@@ -75,16 +75,20 @@
        </b-row>
         <b-table striped hover :items="produtos" :fields="fields">
            <template slot="actions" slot-scope="data">
-                <b-button size='sm' variant="warning" @click="editProduto(data.item.pro_codigo)" class="mr-2">
+                <b-button size='sm' variant="warning" @click="editProduto(data.item.pro_codigo)" class="mr-2"
+                     v-b-tooltip.hover title="Editar">
                     <i class="fa fa-pencil"></i>
                 </b-button>
                 <b-button size='sm' variant="danger" @click="produto = data.item" 
+                    v-b-tooltip.hover title="Excluir"
                     v-b-modal.modal-clic class="ml-2"><i class="fa fa-trash"></i>
                 </b-button>
-                <b-button size='sm' variant="info" @click="fichaProduto(data.item.pro_codigo)" class="ml-2">
+                <b-button size='sm' variant="info" @click="fichaProduto(data.item.pro_codigo)" class="ml-2"
+                     v-b-tooltip.hover title="Relatório PDF">
                     <i class="fa fa-book"></i>
                 </b-button>
-                <b-button size='sm' variant="info" @click="findEstoque(data.item)" class="ml-2" title="estoque">
+                <b-button size='sm' variant="success" @click="findEstoque(data.item)" class="ml-2" 
+                 v-b-tooltip.hover title="Estoque">
                     <i class="fa fa-cart-arrow-down"></i>
                 </b-button>
             </template>

@@ -1,0 +1,12 @@
+.btn-rel {
+   background-color: teal;
+   color: #fff;
+}
+.btn-stq {
+   background-color: #987e9e;
+   color: #fff;
+}
+.btn-stq:hover{
+   background-color: #ecc6f5;
+   color: #fff;
+}

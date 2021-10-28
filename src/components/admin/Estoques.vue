@@ -105,22 +105,25 @@
                 </b-col>
             </b-row>  
 
-            <b-button variant="primary" v-if=" mode === 'save' " @click="save"> Salvar </b-button>
-            <b-button class="ml-2"  @click="reset"> Cancelar </b-button>
+            <b-button size='sm' variant="primary" v-if=" mode === 'save' " @click="save"> Salvar </b-button>
+            <b-button size='sm' variant="outline-primary" class="ml-2"  @click="reset"> Cancelar </b-button>
+            <b-button size='sm' variant="success" @click="fichaProduto(produto.pro_codigo)" class="ml-2"
+                v-b-tooltip.hover title="Relatorio em PDF">
+                    <i class="fa fa-book"></i>
+            </b-button>
 
         </b-form>
         <hr>
         <b-table striped hover :items="estoques" :fields="fields">
            <template slot="actions" slot-scope="data">
-                <b-button size='sm' variant="warning" @click="editEstoque(data.item.codigo)" class="mr-2">
+                <b-button size='sm' variant="warning" @click="editEstoque(data.item.codigo)" class="mr-2"
+                    v-b-tooltip.hover title="Editar">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button size='sm' variant="danger" @click="estoque = data.item" 
+                <b-button size='sm' variant="danger" @click="estoque = data.item" v-b-tooltip.hover title="Excluir"
                     v-b-modal.modal-clic class="ml-2"><i class="fa fa-trash"></i>
                 </b-button>
-                <b-button size='sm' variant="info" @click="fichaProduto(data.item.pro_codigo)" class="ml-2">
-                    <i class="fa fa-book"></i>
-                </b-button>
+                
             </template>
         </b-table>
         
@@ -286,7 +289,7 @@ export default {
 </script>
 
 <style>
-
+    
 </style>
 
 
